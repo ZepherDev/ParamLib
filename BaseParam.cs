@@ -2,7 +2,7 @@
 using MelonLoader;
 using UnityEngine;
 
-namespace VRCEyeTracking.ParamLib
+namespace ParamLib
 {
     public class BaseParam
     {
@@ -12,7 +12,7 @@ namespace VRCEyeTracking.ParamLib
             _paramName = paramName;
         }
 
-        public void ResetParams() => ParamIndex = ParamLib.GetParamIndex(_paramName);
+        public void ResetParam() => ParamIndex = ParamLib.GetParamIndex(_paramName);
 
         protected double ParamValue
         {
@@ -28,10 +28,24 @@ namespace VRCEyeTracking.ParamLib
         
         private readonly string _paramName;
         protected double _paramValue;
-        
     }
 
-    
+    public class IntBaseParam : BaseParam
+    {
+        public new int ParamValue
+        {
+            get => (int) _paramValue;
+            set
+            {
+                base.ParamValue = value;
+                _paramValue = value;
+            }
+        }
+        
+        public IntBaseParam(string paramName) : base(paramName)
+        {
+        }
+    }
     
     public class FloatBaseParam : BaseParam
     {
@@ -98,8 +112,8 @@ namespace VRCEyeTracking.ParamLib
 
         protected void ResetParams()
         {
-            X.ResetParams();
-            Y.ResetParams();
+            X.ResetParam();
+            Y.ResetParam();
         }
 
         protected void ZeroParams()
