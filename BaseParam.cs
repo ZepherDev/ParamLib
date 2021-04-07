@@ -13,13 +13,15 @@ namespace ParamLib
         }
 
         public void ResetParam() => ParamIndex = ParamLib.GetParamIndex(_paramName);
+        
 
         protected double ParamValue
         {
             get => _paramValue;
             set
             {
-                if (ParamLib.SetParameter(ParamIndex, (float) value))
+                if (!ParamIndex.HasValue) return;
+                if (ParamLib.SetParameter(ParamIndex.Value, (float) value))
                     _paramValue = value;
             }
         }
@@ -64,8 +66,8 @@ namespace ParamLib
             get => _prioritised;
             set
             {
-                if (value)
-                    ParamLib.PrioritizeParameter(ParamIndex);
+                if (value && ParamIndex.HasValue)
+                    ParamLib.PrioritizeParameter(ParamIndex.Value);
                 
                 _prioritised = value;
             }
@@ -74,7 +76,7 @@ namespace ParamLib
 
         public FloatBaseParam(string paramName, bool prioritised = false) : base(paramName)
         {
-            if (!prioritised) return;
+            if (!prioritised || !ParamIndex.HasValue) return;
             
             Prioritised = true;
             MelonCoroutines.Start(KeepParamPrioritised());
@@ -85,8 +87,8 @@ namespace ParamLib
             for (;;)
             {
                 yield return new WaitForSeconds(5);
-                if (!Prioritised) continue;
-                ParamLib.PrioritizeParameter(ParamIndex);
+                if (!Prioritised || !ParamIndex.HasValue) continue;
+                ParamLib.PrioritizeParameter(ParamIndex.Value);
             }
         }
     }

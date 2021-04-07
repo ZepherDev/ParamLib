@@ -12,14 +12,12 @@ namespace ParamLib
         private static AvatarAnimParamController GetLocalAnimParamController() => VRCPlayer.field_Internal_Static_VRCPlayer_0
             ?.field_Private_VRC_AnimationController_0?.field_Private_AvatarAnimParamController_0;
         
-        public static void PrioritizeParameter(int? paramIndex)
+        public static void PrioritizeParameter(int paramIndex)
         {
-            if (paramIndex == null) return;
-            
             var controller = GetLocalPlayableController();
             if (controller == null) return;
             
-            controller.Method_Public_Void_Int32_0((int)paramIndex);
+            controller.Method_Public_Void_Int32_0(paramIndex);
         }
         
         public static int? GetParamIndex(string paramName)
@@ -43,10 +41,8 @@ namespace ParamLib
             return index;
         }
         
-        public static bool SetParameter(int? paramIndex, float value)
+        public static bool SetParameter(int paramIndex, float value)
         {
-            if (paramIndex == null) return false;
-
             var controller = GetLocalAnimParamController();
             if (controller?.field_Private_AvatarPlayableController_0 == null) return false;
 
