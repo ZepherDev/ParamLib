@@ -95,7 +95,7 @@ namespace ParamLib
 
     public class XYParam
     {
-        private FloatBaseParam X, Y;
+        protected FloatBaseParam X, Y;
 
         protected Vector2 ParamValue
         {
