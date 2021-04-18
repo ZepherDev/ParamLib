@@ -76,7 +76,7 @@ namespace ParamLib
 
         public FloatBaseParam(string paramName, bool prioritised = false) : base(paramName)
         {
-            if (!prioritised || !ParamIndex.HasValue) return;
+            if (!prioritised) return;
             
             Prioritised = true;
             MelonCoroutines.Start(KeepParamPrioritised());
