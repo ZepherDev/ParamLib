@@ -17,7 +17,7 @@ namespace ParamLib
             var controller = GetLocalPlayableController();
             if (controller == null) return;
             
-            controller.Method_Public_Void_Int32_0(paramIndex);
+            controller.Method_Public_Void_Int32_1(paramIndex);
         }
         
         public static int? GetParamIndex(string paramName)
