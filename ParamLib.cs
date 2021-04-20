@@ -46,7 +46,7 @@ namespace ParamLib
             var controller = GetLocalAnimParamController();
             if (controller?.field_Private_AvatarPlayableController_0 == null) return false;
 
-            controller.field_Private_AvatarPlayableController_0.Method_Public_Boolean_Int32_Single_1((int)paramIndex, value);
+            controller.field_Private_AvatarPlayableController_0.Method_Public_Boolean_Int32_Single_0((int)paramIndex, value);
             return true;
         }
     }
