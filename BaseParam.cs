@@ -90,7 +90,7 @@ namespace ParamLib
         }
         private bool _prioritised;
 
-        public FloatBaseParam(string paramName, bool prioritised = false) : base(paramName, VRCExpressionParameters.ValueType.Bool)
+        public FloatBaseParam(string paramName, bool prioritised = false) : base(paramName, VRCExpressionParameters.ValueType.Float)
         {
             if (!prioritised) return;
             
