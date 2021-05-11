@@ -20,25 +20,23 @@ namespace ParamLib
             controller.Method_Public_Void_Int32_0(paramIndex);
         }
         
-        public static int? GetParamIndex(string paramName)
+        public static (int, VRCExpressionParameters.Parameter) FindParam(string paramName, VRCExpressionParameters.ValueType paramType)
         {
             VRCExpressionParameters.Parameter[] parameters = VRCPlayer.field_Internal_Static_VRCPlayer_0
                 ?.prop_VRCAvatarManager_0?.prop_VRCAvatarDescriptor_0?.expressionParameters
                 ?.parameters;
 
             if (parameters == null)
-                return null;
+                return (-1, null);
 
-            int? index = null;
             for (var i = 0; i < parameters.Length; i++)
             {
                 var param = parameters[i];
-                if (param.name == null)
-                    return null;
-                if (param.name == paramName) index = i;
+                if (param.name == null) continue;
+                if (param.name == paramName && param.valueType == paramType) return (i, parameters[i]);
             }
 
-            return index;
+            return (-1, null);
         }
         
         public static bool SetParameter(int paramIndex, float value)

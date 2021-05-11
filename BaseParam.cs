@@ -1,19 +1,29 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using MelonLoader;
 using UnityEngine;
+using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace ParamLib
 {
     public class BaseParam
     {
-        protected BaseParam(string paramName)
+        protected BaseParam(string paramName, VRCExpressionParameters.ValueType paramType)
         {
-            ParamIndex = ParamLib.GetParamIndex(paramName);
             _paramName = paramName;
+            _paramType = paramType;
+            ResetParam();
         }
 
-        public void ResetParam() => ParamIndex = ParamLib.GetParamIndex(_paramName);
-        
+        public void ResetParam()
+        {
+            var (paramIndex, parameter) = ParamLib.FindParam(_paramName, _paramType);
+            if (parameter == null) return;
+            
+            ParamIndex = paramIndex;
+        }
+
+        public void ZeroParam() => ParamIndex = null;
 
         protected double ParamValue
         {
@@ -29,22 +39,32 @@ namespace ParamLib
         public int? ParamIndex;
         
         private readonly string _paramName;
-        protected double _paramValue;
+        private readonly VRCExpressionParameters.ValueType _paramType;
+        private double _paramValue;
+    }
+
+    public class BoolBaseParam : BaseParam
+    {
+        public new bool ParamValue
+        {
+            get => Convert.ToBoolean(base.ParamValue);
+            set => base.ParamValue = Convert.ToDouble(value);
+        }
+        
+        protected BoolBaseParam(string paramName) : base(paramName, VRCExpressionParameters.ValueType.Bool)
+        {
+        }
     }
 
     public class IntBaseParam : BaseParam
     {
         public new int ParamValue
         {
-            get => (int) _paramValue;
-            set
-            {
-                base.ParamValue = value;
-                _paramValue = value;
-            }
+            get => (int) base.ParamValue;
+            set => base.ParamValue = value;
         }
         
-        public IntBaseParam(string paramName) : base(paramName)
+        public IntBaseParam(string paramName) : base(paramName, VRCExpressionParameters.ValueType.Int)
         {
         }
     }
@@ -53,12 +73,8 @@ namespace ParamLib
     {
         public new float ParamValue
         {
-            get => (float) _paramValue;
-            set
-            {
-                base.ParamValue = value;
-                _paramValue = value;
-            }
+            get => (float) base.ParamValue;
+            set => base.ParamValue = value;
         }
 
         private bool Prioritised
@@ -74,7 +90,7 @@ namespace ParamLib
         }
         private bool _prioritised;
 
-        public FloatBaseParam(string paramName, bool prioritised = false) : base(paramName)
+        public FloatBaseParam(string paramName, bool prioritised = false) : base(paramName, VRCExpressionParameters.ValueType.Bool)
         {
             if (!prioritised) return;
             
