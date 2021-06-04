@@ -1,5 +1,4 @@
 using System.Linq;
-using Il2CppSystem.Reflection;
 using UnhollowerRuntimeLib.XrefScans;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using MethodInfo = System.Reflection.MethodInfo;
@@ -21,12 +20,16 @@ namespace ParamLib
             m.Name.Contains("Boolean_Int32_Single") &&
             XrefScanner.UsedBy(m).All(inst => inst.Type == XrefType.Method && inst.TryResolve()?.DeclaringType == typeof(AvatarPlayableController)));
         
+        private static readonly MethodInfo PrioritizeMethod = typeof(AvatarPlayableController).GetMethods().First(m =>
+            m.Name.Contains("Void_Int32") &&
+            XrefScanner.UsedBy(m).Any(inst => inst.Type == XrefType.Method && inst.TryResolve()?.DeclaringType == typeof(ActionMenu) && inst.TryResolve().Name.Contains("Void_String")));
+        
         public static void PrioritizeParameter(int paramIndex)
         {
             var controller = LocalPlayableController;
             if (controller == null) return;
             
-            controller.Method_Public_Void_Int32_0(paramIndex);
+            PrioritizeMethod.Invoke(controller, new object[] {paramIndex});
         }
         
         public static (int, VRCExpressionParameters.Parameter) FindParam(string paramName, VRCExpressionParameters.ValueType paramType)
