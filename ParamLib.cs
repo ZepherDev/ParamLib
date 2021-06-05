@@ -22,7 +22,7 @@ namespace ParamLib
         
         private static readonly MethodInfo PrioritizeMethod = typeof(AvatarPlayableController).GetMethods().First(m =>
             m.Name.Contains("Void_Int32") &&
-            XrefScanner.UsedBy(m).Any(inst => inst.Type == XrefType.Method && inst.TryResolve()?.DeclaringType == typeof(ActionMenu) && inst.TryResolve().Name.Contains("Void_String")));
+            XrefScanner.UsedBy(m).Any(inst => inst.Type == XrefType.Method && inst.TryResolve()?.DeclaringType == typeof(ActionMenu)));
         
         public static void PrioritizeParameter(int paramIndex)
         {
