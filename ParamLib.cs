@@ -1,23 +1,32 @@
+using System.Linq;
+using MelonLoader;
+using UnhollowerRuntimeLib.XrefScans;
 using VRC.SDK3.Avatars.ScriptableObjects;
+using MethodInfo = System.Reflection.MethodInfo;
+
 // ReSharper disable Unity.NoNullPropagation        Rider please, we both know this wasn't gonna be pretty...
 
 namespace ParamLib
 {
     public static class ParamLib
-    {   
+    {
         private static AvatarPlayableController LocalPlayableController => LocalAnimParamController
             ?.field_Private_AvatarPlayableController_0;
 
         private static AvatarAnimParamController LocalAnimParamController => VRCPlayer
             .field_Internal_Static_VRCPlayer_0
             ?.field_Private_AnimatorControllerManager_0?.field_Private_AvatarAnimParamController_0;
-        
+
+        private static readonly MethodInfo SetMethod = typeof(AvatarPlayableController).GetMethods().First(m =>
+            m.Name.Contains("Boolean_Int32_Single") &&
+            XrefScanner.UsedBy(m).All(inst => inst.Type == XrefType.Method && inst.TryResolve()?.DeclaringType == typeof(AvatarPlayableController)));
+
         public static void PrioritizeParameter(int paramIndex)
         {
             var controller = LocalPlayableController;
             if (controller == null) return;
             
-            controller.Method_Public_Void_Int32_0(paramIndex);
+            controller.Method_Public_Void_Int32_1(paramIndex);
         }
         
         public static (int, VRCExpressionParameters.Parameter) FindParam(string paramName, VRCExpressionParameters.ValueType paramType)
@@ -44,7 +53,7 @@ namespace ParamLib
             var controller = LocalAnimParamController;
             if (controller?.field_Private_AvatarPlayableController_0 == null) return false;
 
-            controller.field_Private_AvatarPlayableController_0.Method_Public_Boolean_Int32_Single_0(paramIndex, value);
+            SetMethod.Invoke(controller.field_Private_AvatarPlayableController_0, new object[] {paramIndex, value});
             return true;
         }
     }
