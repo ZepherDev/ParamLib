@@ -18,9 +18,8 @@ namespace ParamLib
         public void ResetParam()
         {
             var (paramIndex, parameter) = ParamLib.FindParam(_paramName, _paramType);
-            if (parameter == null) return;
             
-            ParamIndex = paramIndex;
+            ParamIndex = parameter == null ? (int?)null : paramIndex;
         }
 
         public void ZeroParam() => ParamIndex = null;
