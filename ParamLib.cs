@@ -34,14 +34,14 @@ namespace ParamLib
             PrioritizeMethod.Invoke(LocalPlayableController, new object[] { paramIndex });
         }
         
-        public static (int, VRCExpressionParameters.Parameter) FindParam(string paramName, VRCExpressionParameters.ValueType paramType)
+        public static (int?, VRCExpressionParameters.Parameter) FindParam(string paramName, VRCExpressionParameters.ValueType paramType)
         {
             VRCExpressionParameters.Parameter[] parameters = VRCPlayer.field_Internal_Static_VRCPlayer_0
                 ?.prop_VRCAvatarManager_0?.prop_VRCAvatarDescriptor_0?.expressionParameters
                 ?.parameters;
 
             if (parameters == null)
-                return (-1, null);
+                return (null, null);
 
             for (var i = 0; i < parameters.Length; i++)
             {
@@ -50,7 +50,7 @@ namespace ParamLib
                 if (param.name == paramName && param.valueType == paramType) return (i, parameters[i]);
             }
 
-            return (-1, null);
+            return (null, null);
         }
         
         public static bool SetParameter(int paramIndex, float value)

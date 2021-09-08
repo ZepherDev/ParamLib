@@ -19,7 +19,7 @@ namespace ParamLib
         {
             var (paramIndex, parameter) = ParamLib.FindParam(_paramName, _paramType);
             
-            ParamIndex = parameter == null ? (int?)null : paramIndex;
+            ParamIndex = paramIndex == null && parameter == null ? null : paramIndex;
         }
 
         public void ZeroParam() => ParamIndex = null;
