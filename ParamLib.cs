@@ -53,6 +53,8 @@ namespace ParamLib
             return (null, null);
         }
         
+        public static double? GetParamDefaultValue(VRCExpressionParameters.Parameter param) => param?.defaultValue;
+
         public static bool SetParameter(int paramIndex, float value)
         {
             if (LocalAnimParamController?.field_Private_AvatarPlayableController_0 == null) return false;

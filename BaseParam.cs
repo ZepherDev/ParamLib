@@ -10,14 +10,14 @@ namespace ParamLib
     {
         protected BaseParam(string paramName, VRCExpressionParameters.ValueType paramType)
         {
-            _paramName = paramName;
+            ParamName = paramName;
             _paramType = paramType;
             ResetParam();
         }
 
         public void ResetParam()
         {
-            var (paramIndex, parameter) = ParamLib.FindParam(_paramName, _paramType);
+            var (paramIndex, parameter) = ParamLib.FindParam(ParamName, _paramType);
             
             ParamIndex = paramIndex == null && parameter == null ? null : paramIndex;
         }
@@ -37,7 +37,7 @@ namespace ParamLib
 
         public int? ParamIndex;
         
-        private readonly string _paramName;
+        public readonly string ParamName;
         private readonly VRCExpressionParameters.ValueType _paramType;
         private double _paramValue;
     }
@@ -110,7 +110,7 @@ namespace ParamLib
 
     public class XYParam
     {
-        protected FloatBaseParam X, Y;
+        public FloatBaseParam X, Y;
 
         protected Vector2 ParamValue
         {
