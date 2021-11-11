@@ -12,8 +12,7 @@ namespace ParamLib
         private static AvatarPlayableController LocalPlayableController => LocalAnimParamController
             ?.field_Private_AvatarPlayableController_0;
 
-        private static AvatarAnimParamController LocalAnimParamController => VRCPlayer
-            .field_Internal_Static_VRCPlayer_0
+        private static AvatarAnimParamController LocalAnimParamController => VRCPlayer.field_Internal_Static_VRCPlayer_0
             ?.field_Private_AnimatorControllerManager_0?.field_Private_AvatarAnimParamController_0;
         
         private static readonly MethodInfo PrioritizeMethod = typeof(AvatarPlayableController).GetMethods().Where(info =>
@@ -34,8 +33,7 @@ namespace ParamLib
             PrioritizeMethod.Invoke(LocalPlayableController, new object[] { paramIndex });
         }
         
-        public static VRCExpressionParameters.Parameter[] GetLocalParams() => VRCPlayer
-            .field_Internal_Static_VRCPlayer_0
+        public static VRCExpressionParameters.Parameter[] GetLocalParams() => VRCPlayer.field_Internal_Static_VRCPlayer_0
             ?.prop_VRCAvatarManager_0?.prop_VRCAvatarDescriptor_0?.expressionParameters
             ?.parameters;
         

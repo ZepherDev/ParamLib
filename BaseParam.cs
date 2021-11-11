@@ -15,12 +15,7 @@ namespace ParamLib
             ResetParam();
         }
 
-        public void ResetParam()
-        {
-            var (paramIndex, parameter) = ParamLib.FindParam(ParamName, _paramType);
-            
-            ParamIndex = paramIndex == null && parameter == null ? null : paramIndex;
-        }
+        public void ResetParam() => (ParamIndex, ParameterLiteral) = ParamLib.FindParam(ParamName, _paramType);
 
         public void ZeroParam() => ParamIndex = null;
 
@@ -39,6 +34,7 @@ namespace ParamLib
         
         public readonly string ParamName;
         private readonly VRCExpressionParameters.ValueType _paramType;
+        protected VRCExpressionParameters.Parameter ParameterLiteral;
         private double _paramValue;
     }
 
