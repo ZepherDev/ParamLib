@@ -1,5 +1,6 @@
 using System.Linq;
 using UnhollowerRuntimeLib.XrefScans;
+using VRC.SDK3.Avatars.Components;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using MethodInfo = System.Reflection.MethodInfo;
 
@@ -36,12 +37,53 @@ namespace ParamLib
         public static VRCExpressionParameters.Parameter[] GetLocalParams() => VRCPlayer.field_Internal_Static_VRCPlayer_0
             ?.prop_VRCAvatarManager_0?.prop_VRCAvatarDescriptor_0?.expressionParameters
             ?.parameters;
-        
-        public static (int?, VRCExpressionParameters.Parameter) FindParam(string paramName, VRCExpressionParameters.ValueType paramType)
-        {
-            var parameters = GetLocalParams();
 
+        public static VRCExpressionParameters.Parameter[] GetParams(VRCPlayer player)
+        {
+            // Get the Avatar
+            GameObject _avatar = player.transform.Find("ForwardDirection").Find("Avatar").gameObject;
+            // Get the Avatar Descriptor / easy method ;)
+            VRCAvatarDescriptor _descriptor = _avatar.GetComponent<VRCAvatarDescriptor>();
+            // Get the Expression Parameters
+            VRCExpressionParameters _parameters = _descriptor.expressionParameters;
+            // Return the list
+            return _parameters.parameters;
+        }
+
+        public bool DoesParamExist(string paramName, VRCExpressionParameters.ValueType paramType,
+            VRCExpressionParameters.Parameter[] parameters = new []{})
+        {
+            // If they're the default value, then assume Local Params
+            if(parameters == parameters == new []{})
+                parameters = GetLocalParams();
+            // If they're null, then just return null
             if (parameters == null)
+                return (null, null);
+            // Separate Length from nulll check, otherwise you'll get a null exception if parameters are null
+            if (parameters.Length == 0)
+                return (null, null);
+
+            bool exists = false;
+            for (int i = 0; i < parameters.Length; i++)
+                if (!exists)
+                {
+                    exists = parameters[i].name == paramName && parameters[i].valueType == paramType;
+                }
+
+            return exists;
+        }
+        
+        public static (int?, VRCExpressionParameters.Parameter) FindParam(string paramName, VRCExpressionParameters.ValueType paramType,
+            VRCExpressionParameters.Parameter[] parameters = new []{})
+        {
+            // If they're the default value, then assume Local Params
+            if(parameters == parameters == new []{})
+                parameters = GetLocalParams();
+            // If they're null, then just return null
+            if (parameters == null)
+                return (null, null);
+            // Separate Length from nulll check, otherwise you'll get a null exception if parameters are null
+            if (parameters.Length == 0)
                 return (null, null);
 
             for (var i = 0; i < parameters.Length; i++)
