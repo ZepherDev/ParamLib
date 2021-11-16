@@ -82,7 +82,7 @@ namespace ParamLib
             // If they're still null, then just return null
             if (parameters == null)
                 return (null, null);
-            // Separate Length from nulll check, otherwise you'll get a null exception if parameters are null
+            // Separate Length from null check, otherwise you'll get a null exception if parameters are null
             if (parameters.Length == 0)
                 return (null, null);
 
