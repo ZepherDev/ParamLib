@@ -50,7 +50,7 @@ namespace ParamLib
             return _parameters.parameters;
         }
 
-        public bool DoesParamExist(string paramName, VRCExpressionParameters.ValueType paramType,
+        public static bool DoesParamExist(string paramName, VRCExpressionParameters.ValueType paramType,
             VRCExpressionParameters.Parameter[] parameters = new []{})
         {
             // If they're the default value, then assume Local Params
