@@ -51,12 +51,12 @@ namespace ParamLib
         }
 
         public static bool DoesParamExist(string paramName, VRCExpressionParameters.ValueType paramType,
-            VRCExpressionParameters.Parameter[] parameters = new []{})
+            VRCExpressionParameters.Parameter[] parameters = null)
         {
-            // If they're the default value, then assume Local Params
-            if(parameters == parameters == new []{})
+            // If they're null, then try getting LocalParams
+            if(parameters == null)
                 parameters = GetLocalParams();
-            // If they're null, then just return null
+            // If they're still null, then just return null
             if (parameters == null)
                 return (null, null);
             // Separate Length from nulll check, otherwise you'll get a null exception if parameters are null
@@ -74,12 +74,12 @@ namespace ParamLib
         }
         
         public static (int?, VRCExpressionParameters.Parameter) FindParam(string paramName, VRCExpressionParameters.ValueType paramType,
-            VRCExpressionParameters.Parameter[] parameters = new []{})
+            VRCExpressionParameters.Parameter[] parameters = null)
         {
-            // If they're the default value, then assume Local Params
-            if(parameters == parameters == new []{})
+            // If they're null, then try getting LocalParams
+            if(parameters == null)
                 parameters = GetLocalParams();
-            // If they're null, then just return null
+            // If they're still null, then just return null
             if (parameters == null)
                 return (null, null);
             // Separate Length from nulll check, otherwise you'll get a null exception if parameters are null
