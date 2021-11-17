@@ -38,17 +38,9 @@ namespace ParamLib
             ?.prop_VRCAvatarManager_0?.prop_VRCAvatarDescriptor_0?.expressionParameters
             ?.parameters;
 
-        public static VRCExpressionParameters.Parameter[] GetParams(VRCPlayer player)
-        {
-            // Get the Avatar
-            GameObject _avatar = player.transform.Find("ForwardDirection").Find("Avatar").gameObject;
-            // Get the Avatar Descriptor / easy method ;)
-            VRCAvatarDescriptor _descriptor = _avatar.GetComponent<VRCAvatarDescriptor>();
-            // Get the Expression Parameters
-            VRCExpressionParameters _parameters = _descriptor.expressionParameters;
-            // Return the list
-            return _parameters.parameters;
-        }
+        public static VRCExpressionParameters.Parameter[] GetParams(VRCPlayer player) => player.transform
+            .Find("ForwardDirection").Find("Avatar").gameObject.GetComponent<VRCAvatarDescriptor>().expressionParameters
+            .parameters;
 
         public static bool DoesParamExist(string paramName, VRCExpressionParameters.ValueType paramType,
             VRCExpressionParameters.Parameter[] parameters = null)
@@ -58,10 +50,10 @@ namespace ParamLib
                 parameters = GetLocalParams();
             // If they're still null, then just return null
             if (parameters == null)
-                return (null, null);
+                return false;
             // Separate Length from nulll check, otherwise you'll get a null exception if parameters are null
             if (parameters.Length == 0)
-                return (null, null);
+                return false;
 
             bool exists = false;
             for (int i = 0; i < parameters.Length; i++)
