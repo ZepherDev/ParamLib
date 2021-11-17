@@ -1,5 +1,6 @@
 using System.Linq;
 using UnhollowerRuntimeLib.XrefScans;
+using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using MethodInfo = System.Reflection.MethodInfo;
