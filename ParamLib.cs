@@ -1,6 +1,5 @@
 using System.Linq;
 using UnhollowerRuntimeLib.XrefScans;
-using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using MethodInfo = System.Reflection.MethodInfo;
@@ -39,9 +38,9 @@ namespace ParamLib
             ?.prop_VRCAvatarManager_0?.prop_VRCAvatarDescriptor_0?.expressionParameters
             ?.parameters;
 
-        public static VRCExpressionParameters.Parameter[] GetParams(VRCPlayer player) => player.transform
-            .Find("ForwardDirection").Find("Avatar").gameObject.GetComponent<VRCAvatarDescriptor>().expressionParameters
-            .parameters;
+        public static VRCExpressionParameters.Parameter[] GetParams(VRCPlayer player) => player.prop_VRCAvatarManager_0
+            ?.prop_VRCAvatarDescriptor_0?.expressionParameters
+            ?.parameters;
 
         public static bool DoesParamExist(string paramName, VRCExpressionParameters.ValueType paramType,
             VRCExpressionParameters.Parameter[] parameters = null)
