@@ -36,7 +36,7 @@ namespace ParamLib
         public static VRCExpressionParameters.Parameter[] GetLocalParams() =>
             GetParams(VRCPlayer.field_Internal_Static_VRCPlayer_0);
 
-        public static VRCExpressionParameters.Parameter[] GetParams(VRCPlayer player) => player.prop_VRCAvatarManager_0
+        public static VRCExpressionParameters.Parameter[] GetParams(VRCPlayer player) => player?.prop_VRCAvatarManager_0
             ?.prop_VRCAvatarDescriptor_0?.expressionParameters
             ?.parameters;
 
@@ -44,9 +44,8 @@ namespace ParamLib
             VRCExpressionParameters.Parameter[] parameters = null)
         {
             // If they're null, then try getting LocalParams
-            if(parameters == null)
-                parameters = GetLocalParams();
-
+            parameters = parameters ?? GetLocalParams();
+            
             // Separate Length from nulll check, otherwise you'll get a null exception if parameters are null
             return parameters != null && parameters.Any(p => p.name == paramName && p.valueType == paramType);
         }
@@ -55,8 +54,10 @@ namespace ParamLib
             VRCExpressionParameters.Parameter[] parameters = null)
         {
             // If they're null, then try getting LocalParams
-            if(parameters == null)
-                parameters = GetLocalParams();
+            parameters = parameters ?? GetLocalParams();
+            
+            if (parameters == null) return (null, null);
+            
 
             for (var i = 0; i < parameters.Length; i++)
             {
