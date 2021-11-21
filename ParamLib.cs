@@ -1,6 +1,5 @@
 using System.Linq;
 using UnhollowerRuntimeLib.XrefScans;
-using VRC.SDK3.Avatars.Components;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using MethodInfo = System.Reflection.MethodInfo;
 
@@ -33,10 +32,9 @@ namespace ParamLib
 
             PrioritizeMethod.Invoke(LocalPlayableController, new object[] { paramIndex });
         }
-        
-        public static VRCExpressionParameters.Parameter[] GetLocalParams() => VRCPlayer.field_Internal_Static_VRCPlayer_0
-            ?.prop_VRCAvatarManager_0?.prop_VRCAvatarDescriptor_0?.expressionParameters
-            ?.parameters;
+
+        public static VRCExpressionParameters.Parameter[] GetLocalParams() =>
+            GetParams(VRCPlayer.field_Internal_Static_VRCPlayer_0);
 
         public static VRCExpressionParameters.Parameter[] GetParams(VRCPlayer player) => player.prop_VRCAvatarManager_0
             ?.prop_VRCAvatarDescriptor_0?.expressionParameters
@@ -48,21 +46,9 @@ namespace ParamLib
             // If they're null, then try getting LocalParams
             if(parameters == null)
                 parameters = GetLocalParams();
-            // If they're still null, then just return null
-            if (parameters == null)
-                return false;
+
             // Separate Length from nulll check, otherwise you'll get a null exception if parameters are null
-            if (parameters.Length == 0)
-                return false;
-
-            bool exists = false;
-            for (int i = 0; i < parameters.Length; i++)
-                if (!exists)
-                {
-                    exists = parameters[i].name == paramName && parameters[i].valueType == paramType;
-                }
-
-            return exists;
+            return parameters != null && parameters.Any(p => p.name == paramName && p.valueType == paramType);
         }
         
         public static (int?, VRCExpressionParameters.Parameter) FindParam(string paramName, VRCExpressionParameters.ValueType paramType,
@@ -71,12 +57,6 @@ namespace ParamLib
             // If they're null, then try getting LocalParams
             if(parameters == null)
                 parameters = GetLocalParams();
-            // If they're still null, then just return null
-            if (parameters == null)
-                return (null, null);
-            // Separate Length from null check, otherwise you'll get a null exception if parameters are null
-            if (parameters.Length == 0)
-                return (null, null);
 
             for (var i = 0; i < parameters.Length; i++)
             {
