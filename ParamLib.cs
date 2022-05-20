@@ -15,6 +15,44 @@ namespace ParamLib
         private static AvatarAnimParamController LocalAnimParamController => VRCPlayer.field_Internal_Static_VRCPlayer_0
             ?.field_Private_AnimatorControllerManager_0?.field_Private_AvatarAnimParamController_0;
         
+        public static string[] ExcludedParams = {
+            "IsLocal",
+            "Viseme",
+            "Voice",
+            "GestureLeft",
+            "GestureRight",
+            "GestureLeftWeight",
+            "GestureRightWeight",
+            "AngularY",
+            "VelocityX",
+            "VelocityY",
+            "VelocityZ",
+            "Upright",
+            "Grounded",
+            "Seated",
+            "AFK",
+            "Expression1",
+            "Expression2",
+            "Expression3",
+            "Expression4",
+            "Expression5",
+            "Expression6",
+            "Expression7",
+            "Expression8",
+            "Expression9",
+            "Expression10",
+            "Expression11",
+            "Expression12",
+            "Expression13",
+            "Expression14",
+            "Expression15",
+            "Expression16",
+            "TrackingType",
+            "VRMode",
+            "MuteSelf",
+            "InStation"
+        };
+        
         private static readonly MethodInfo PrioritizeMethod = typeof(AvatarPlayableController).GetMethods().Where(info =>
                 info.Name.Contains("Method") && !info.Name.Contains("PDM") && info.Name.Contains("Public")
                 && info.GetParameters().Length == 1 && info.Name.Contains("Int32") &&
@@ -52,6 +90,8 @@ namespace ParamLib
         public static (int?, VRCExpressionParameters.Parameter) FindParam(string paramName, VRCExpressionParameters.ValueType paramType,
             VRCExpressionParameters.Parameter[] parameters = null)
         {
+            var indexOffset = 0;
+            
             // If they're null, then try getting LocalParams
             parameters = parameters ?? GetLocalParams();
             
@@ -62,7 +102,9 @@ namespace ParamLib
             {
                 var param = parameters[i];
                 if (param.name == null) continue;
-                if (param.name == paramName && param.valueType == paramType) return (i, parameters[i]);
+                //Fix for VRChat being dumb when someone uses a default param in their avatar
+                if (ExcludedParams.Contains(param.name)) indexOffset--;
+                if (param.name == paramName && param.valueType == paramType) return (i + indexOffset, parameters[i]);
             }
 
             return (null, null);
