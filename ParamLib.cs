@@ -61,7 +61,7 @@ namespace ParamLib
 
         private static readonly MethodInfo SetMethod = typeof(AvatarPlayableController).GetMethods().First(m =>
             m.Name.Contains("Boolean_Int32_Single") && !m.Name.Contains("PDM") &&
-            XrefScanner.UsedBy(m).Count(inst => inst.Type == XrefType.Method && inst.TryResolve()?.DeclaringType == typeof(AvatarPlayableController)) == 5);
+            XrefScanner.UsedBy(m).Count(inst => inst.Type == XrefType.Method && inst.TryResolve()?.DeclaringType == typeof(AvatarPlayableController)) >= 4);
 
         public static void PrioritizeParameter(int paramIndex)
         {
