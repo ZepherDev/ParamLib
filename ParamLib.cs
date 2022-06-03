@@ -59,9 +59,9 @@ namespace ParamLib
                 info.ReturnType == typeof(void))
             .First(method => XrefScanner.XrefScan(method).Any(xref => xref.Type == XrefType.Global && xref.ReadAsObject().ToString().Contains("Ran out of free puppet channels!")));
 
-        private static readonly MethodInfo SetMethod = typeof(AvatarPlayableController).GetMethods().First(m =>
-            m.Name.Contains("Boolean_Int32_Single") && !m.Name.Contains("PDM") &&
-            XrefScanner.UsedBy(m).Count(inst => inst.Type == XrefType.Method && inst.TryResolve()?.DeclaringType == typeof(AvatarPlayableController)) >= 4);
+        private static readonly MethodInfo SetMethod = typeof(AvatarPlayableController)
+            .GetMethods(BindingFlags.Public | BindingFlags.Instance).First(m =>
+                m.Name.Contains("Method_Private_Boolean_Int32_Single") && m.GetParameters().Length == 2);
 
         public static void PrioritizeParameter(int paramIndex)
         {
