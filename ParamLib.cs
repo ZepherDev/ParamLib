@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Reflection;
 using UnhollowerRuntimeLib.XrefScans;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using MethodInfo = System.Reflection.MethodInfo;
